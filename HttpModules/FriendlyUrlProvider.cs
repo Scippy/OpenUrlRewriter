@@ -36,6 +36,7 @@ using Satrabel.HttpModules.Provider;
 using Satrabel.HttpModules;
 using DotNetNuke.Entities.Users;
 using DotNetNuke.Services.Localization;
+using DotNetNuke.Abstractions.Portals;
 
 
 #endregion
@@ -129,16 +130,16 @@ namespace Satrabel.Services.Url.FriendlyUrl
                 return _regexMatchDefaultPortal;
             }
         }
-
+        
         public override string FriendlyUrl(TabInfo tab, string path)
         {
-            PortalSettings _portalSettings = PortalController.GetCurrentPortalSettings();
+            PortalSettings _portalSettings = PortalController.Instance.GetCurrentPortalSettings();
             return FriendlyUrl(tab, path, Globals.glbDefaultPage, _portalSettings);
         }
 
         public override string FriendlyUrl(TabInfo tab, string path, string pageName)
         {
-            PortalSettings _portalSettings = PortalController.GetCurrentPortalSettings();
+            PortalSettings _portalSettings = PortalController.Instance.GetCurrentPortalSettings();
             return FriendlyUrl(tab, path, pageName, _portalSettings);
         }
 
@@ -183,7 +184,7 @@ namespace Satrabel.Services.Url.FriendlyUrl
                 }
                 if (!string.IsNullOrEmpty(CultureCode))
                 {
-                    var primaryAliases = DotNetNuke.Entities.Portals.Internal.TestablePortalAliasController.Instance.GetPortalAliasesByPortalId(PortalId).AsQueryable();
+                    var primaryAliases = PortalAliasController.Instance.GetPortalAliasesByPortalId(PortalId).AsQueryable();
                     if (PortalSettings.Current != null && PortalSettings.Current.PortalAliasMappingMode == PortalSettings.PortalAliasMapping.Redirect)
                     {
                         primaryAliases = primaryAliases.Where(a => a.IsPrimary == true);
@@ -525,7 +526,7 @@ namespace Satrabel.Services.Url.FriendlyUrl
             string matchString = "";
             if (portalAlias != Null.NullString)
             {
-                if (HttpContext.Current.Items["UrlRewrite:OriginalUrl"] != null)
+                if (HttpContext.Current?.Items["UrlRewrite:OriginalUrl"] != null)
                 {
                     string httpAlias = Globals.AddHTTP(portalAlias).ToLowerInvariant();
                     string originalUrl = HttpContext.Current.Items["UrlRewrite:OriginalUrl"].ToString().ToLowerInvariant();
@@ -900,6 +901,17 @@ namespace Satrabel.Services.Url.FriendlyUrl
                 }
             }
             return results;
+        }
+
+        public override string FriendlyUrl(TabInfo tab, string path, string pageName, IPortalSettings settings)
+        {
+            if (settings == null)
+            {
+                return FriendlyUrl(tab, path, pageName);
+
+            }
+
+            return FriendlyUrl(tab, path, pageName, ((DotNetNuke.Entities.Portals.PortalSettings)settings).PortalAlias.HTTPAlias);
         }
     }
 }

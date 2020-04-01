@@ -1,7 +1,30 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Web Developer Express 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenUrlRewriter71", "OpenUrlRewriter71.csproj", "{863ECE01-EC68-4FB7-8CC4-787BDDF60100}"
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.106
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenUrlRewriter", "OpenUrlRewriter.csproj", "{863ECE01-EC68-4FB7-8CC4-787BDDF60100}"
+EndProject
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "http://www.dnn951.it", "http://www.dnn951.it", "{FCADFD4F-BD00-471B-A682-2C941D003DEF}"
+	ProjectSection(WebsiteProperties) = preProject
+		UseIISExpress = "false"
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.7.2"
+		Debug.AspNetCompiler.VirtualPath = "/www.dnn951.it"
+		Debug.AspNetCompiler.PhysicalPath = "..\..\..\DNN951\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\www.dnn951.it\"
+		Debug.AspNetCompiler.Updateable = "true"
+		Debug.AspNetCompiler.ForceOverwrite = "true"
+		Debug.AspNetCompiler.FixedNames = "false"
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.VirtualPath = "/www.dnn951.it"
+		Release.AspNetCompiler.PhysicalPath = "..\..\..\DNN951\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\www.dnn951.it\"
+		Release.AspNetCompiler.Updateable = "true"
+		Release.AspNetCompiler.ForceOverwrite = "true"
+		Release.AspNetCompiler.FixedNames = "false"
+		Release.AspNetCompiler.Debug = "False"
+		SlnRelativePath = "..\..\..\DNN951\"
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,8 +36,14 @@ Global
 		{863ECE01-EC68-4FB7-8CC4-787BDDF60100}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{863ECE01-EC68-4FB7-8CC4-787BDDF60100}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{863ECE01-EC68-4FB7-8CC4-787BDDF60100}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FCADFD4F-BD00-471B-A682-2C941D003DEF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FCADFD4F-BD00-471B-A682-2C941D003DEF}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{FCADFD4F-BD00-471B-A682-2C941D003DEF}.Release|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5C5EDB29-1D5D-445A-8E62-42BAD2CAB5B3}
 	EndGlobalSection
 EndGlobal

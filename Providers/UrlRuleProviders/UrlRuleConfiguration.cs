@@ -54,7 +54,8 @@ namespace Satrabel.HttpModules.Config
     public class UrlRuleConfiguration
     {
         //dnn7 private static readonly ILog Logger = LoggerSource.Instance.GetLogger(typeof(Globals));
-        private static readonly DnnLogger Logger = DnnLogger.GetClassLogger(typeof(UrlRuleConfiguration));
+        private static readonly ILog Logger = LoggerSource.Instance.GetLogger(typeof(UrlRuleConfiguration));
+        
 
 
         private List<UrlRule> _rules;
@@ -86,12 +87,15 @@ namespace Satrabel.HttpModules.Config
             var config = new UrlRuleConfiguration();
             config.Rules = new List<UrlRule>();
 
-
+            var UltimaUrlRule = new UrlRule();
+            var UltimaUrlRuleInfo = new UrlRuleInfo();
+            var routine = new int();
+            var conta = new int();
 
             try
             {
                 // 1 cache by portal
-                //DnnLog.Trace("Get cache " + portalId );
+                //Logger.Trace("Get cache " + portalId );
                 //config = (UrlRuleConfiguration)DataCache.GetCache(cacheKey);
 
                 //if ((config == null))
@@ -116,15 +120,23 @@ namespace Satrabel.HttpModules.Config
                         var storedRules = UrlRuleController.GetUrlRules(portalId);
                         foreach (UrlRuleInfo storedRule in storedRules)
                         {
+                            routine = 1;
+                            UltimaUrlRuleInfo = storedRule;
+
                             if (storedRule.CultureCode == "") storedRule.CultureCode = null;
                             if (storedRule.RedirectDestination == "") storedRule.RedirectDestination = null;
                             if (storedRule.RedirectDestination != null) storedRule.RedirectDestination = storedRule.RedirectDestination.Trim();
                             if (storedRule.Url != null) storedRule.Url = storedRule.Url.Trim();
+
+                            
                         }
 
                         // add custom rules to cache
                         foreach (UrlRuleInfo storedRule in storedRules.Where(r => r.RuleType == (int)UrlRuleType.Custom /* && r.RuleAction == (int)UrlRuleAction.Redirect */)) // custom rule
                         {
+                            routine = 2;
+                            UltimaUrlRuleInfo = storedRule;
+
                             UrlRule rule = new UrlRule()
                             {
                                 RuleType = (UrlRuleType)storedRule.RuleType,
@@ -153,6 +165,9 @@ namespace Satrabel.HttpModules.Config
                         */
                         foreach (UrlRule rule in config.Rules)
                         {
+                            routine = 3;
+                            UltimaUrlRule = rule;
+
                             if (rule.CultureCode == "") rule.CultureCode = null;
                             if (rule.RedirectDestination == "") rule.RedirectDestination = null;
                             rule.Url = rule.Url.ToLower();
@@ -181,8 +196,16 @@ namespace Satrabel.HttpModules.Config
                                                         .GroupBy(r => new { r.RuleType, r.CultureCode, r.TabId, r.Url })
                                                         .Select(g => g.First());
 
+
+                        conta = 0;
                         foreach (UrlRule rule in DistuctRules)
                         {
+                            routine = 4;
+                            UltimaUrlRule = rule;
+                            conta = conta + 1;
+
+
+
                             var ruleInfoLst = storedRules.Where(r => r.RuleType == (int)rule.RuleType &&
                                                                                 r.CultureCode == rule.CultureCode &&
                                                                                 r.TabId == rule.TabId &&
@@ -191,24 +214,27 @@ namespace Satrabel.HttpModules.Config
                             UrlRuleInfo ruleInfo = ruleInfoLst.FirstOrDefault();
                             if (ruleInfo == null)
                             {
-                                ruleInfo = new UrlRuleInfo()
+                                if (!string.IsNullOrEmpty(rule.Url) && rule.Url.Length < 500)
                                 {
-                                    PortalId = portalId,
-                                    DateTime = DateTime.Now,
-                                    RuleType = (int)rule.RuleType,
-                                    CultureCode = rule.CultureCode,
-                                    TabId = rule.TabId,
-                                    Url = rule.Url,
+                                    ruleInfo = new UrlRuleInfo()
+                                    {
+                                        PortalId = portalId,
+                                        DateTime = DateTime.Now,
+                                        RuleType = (int)rule.RuleType,
+                                        CultureCode = rule.CultureCode,
+                                        TabId = rule.TabId,
+                                        Url = rule.Url,
 
-                                    Parameters = rule.Parameters,
-                                    RuleAction = (int)rule.Action,
-                                    RemoveTab = rule.RemoveTab,
-                                    RedirectDestination = rule.RedirectDestination,
-                                    RedirectStatus = rule.RedirectStatus
-                                };
-                                ruleInfo.UrlRuleId = UrlRuleController.AddUrlRule(ruleInfo);
-                                Logger.Info("AddUrlRule (UrlRuleId=" + ruleInfo.UrlRuleId + ")");
-                                storedRules.Add(ruleInfo);
+                                        Parameters = rule.Parameters,
+                                        RuleAction = (int)rule.Action,
+                                        RemoveTab = rule.RemoveTab,
+                                        RedirectDestination = rule.RedirectDestination,
+                                        RedirectStatus = rule.RedirectStatus
+                                    };
+                                    ruleInfo.UrlRuleId = UrlRuleController.AddUrlRule(ruleInfo);
+                                    Logger.Info("AddUrlRule (UrlRuleId=" + ruleInfo.UrlRuleId + ")");
+                                    storedRules.Add(ruleInfo);
+                                }
                             }
                             else
                             {
@@ -263,6 +289,9 @@ namespace Satrabel.HttpModules.Config
                         foreach (var storedRule in OldRules.Where(r => r.RuleType == (int)UrlRuleType.Tab ||
                                                                         r.RuleType == (int)UrlRuleType.Module))
                         {
+                            routine = 5;
+                            UltimaUrlRuleInfo = storedRule;
+
                             if (storedRule.RuleAction == (int)UrlRuleAction.Rewrite)
                             {
                                 var actualRule = Rules.FirstOrDefault(r => r.RuleType == (UrlRuleType)storedRule.RuleType &&
@@ -289,7 +318,7 @@ namespace Satrabel.HttpModules.Config
                             }
                         }
                     }
-                    //DnnLog.MethodExit();
+                    //Logger.MethodExit();
                     //DataCache.SetCache("UrlRuleConfig", config, TimeSpan.FromDays(1));
                     //int intCacheTimeout = 20 * Convert.ToInt32(DotNetNuke.Entities.Host.Host.PerformanceSetting);
 
@@ -315,6 +344,9 @@ namespace Satrabel.HttpModules.Config
                 //log it
                 var objEventLog = new EventLogController();
                 var objEventLogInfo = new LogInfo() { LogTypeKey = "GENERAL_EXCEPTION" };
+                objEventLogInfo.AddProperty("UrlRewriter.UrlRuleConfig", "GetConfig Failed");
+                objEventLogInfo.AddProperty("UrlRewriter.RedirectDestination", UltimaUrlRule.RedirectDestination);
+                objEventLogInfo.AddProperty("UrlRewriter.UrlRule", UltimaUrlRule.Url);
                 objEventLogInfo.AddProperty("UrlRewriter.UrlRuleConfig", "GetConfig Failed");
                 objEventLogInfo.AddProperty("ExceptionMessage", ex.Message);
                 objEventLogInfo.AddProperty("PortalId", portalId.ToString());
@@ -466,10 +498,12 @@ namespace Satrabel.HttpModules.Config
             var moduleCtl = new ModuleController();
             if (moduleCtl.GetTabModules(tabID).Count == 0)
             {
-                var dmc = new DesktopModuleController();
-                var dm = dmc.GetDesktopModuleByModuleName("OpenUrlRewriter");
-                var mdc = new ModuleDefinitionController();
-                var md = mdc.GetModuleDefinitionByName(dm.DesktopModuleID, "OpenUrlRewriter");
+                //var dmc = new DesktopModuleController();
+                //var dm = dmc.GetDesktopModuleByModuleName("OpenUrlRewriter");
+                var dm = DesktopModuleController.GetDesktopModuleByModuleName("OpenUrlRewriter", PortalId);
+                //var mdc = new ModuleDefinitionController();
+                //var md = mdc.GetModuleDefinitionByName(dm.DesktopModuleID, "OpenUrlRewriter");
+                var md = ModuleDefinitionController.GetModuleDefinitionByFriendlyName("OpenUrlRewriter");
 
                 var objModule = new ModuleInfo();
                 //objModule.Initialize(PortalId);

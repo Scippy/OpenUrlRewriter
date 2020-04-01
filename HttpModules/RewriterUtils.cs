@@ -142,7 +142,7 @@ namespace Satrabel.HttpModules
 #if DNN71
             string myAlias = DotNetNuke.Common.Internal.TestableGlobals.Instance.GetDomainName(url, true);
 #else
-            string myAlias = GetDomainName(url, true);
+            string myAlias = DotNetNuke.Common.Internal.TestableGlobals.Instance.GetDomainName(url, true);
 #endif
             return myAlias;
         }

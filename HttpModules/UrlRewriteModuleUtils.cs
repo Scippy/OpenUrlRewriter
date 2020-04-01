@@ -13,11 +13,11 @@ using DotNetNuke.Entities.Portals;
 using DotNetNuke.Common.Internal;
 using DotNetNuke.Common;
 using DotNetNuke.Services.Localization;
+using DotNetNuke.Entities.Host;
+using DotNetNuke.Entities.Urls.Config;
 
 #if DNN71
 using DotNetNuke.Entities.Urls.Config;
-using DotNetNuke.Common.Internal;
-using System.IO;
 using DotNetNuke.Entities.Host;
 #else
 using DotNetNuke.HttpModules.Config;
@@ -205,7 +205,7 @@ namespace Satrabel.HttpModules
 #if DNN71
                     else if (!string.IsNullOrEmpty(objPortalAlias.CultureCode))
                     {
-                        var primaryAliases = DotNetNuke.Entities.Portals.Internal.TestablePortalAliasController.Instance.GetPortalAliasesByPortalId(objPortalAlias.PortalID).ToList().Where(a => a.IsPrimary == true);
+                        var primaryAliases = PortalAliasController.Instance.GetPortalAliasesByPortalId(objPortalAlias.PortalID).ToList().Where(a => a.IsPrimary == true);
                         var alias = primaryAliases.FirstOrDefault(a => string.IsNullOrEmpty(a.CultureCode));
                         if (alias != null)
                         {
@@ -479,7 +479,7 @@ namespace Satrabel.HttpModules
             try
             {
                 var setting = Null.NullString;
-                PortalController.GetPortalSettingsDictionary(portalId).TryGetValue("EnableBrowserLanguage", out setting);
+                PortalController.Instance.GetPortalSettings(portalId).TryGetValue("EnableBrowserLanguage", out setting);
                 if (string.IsNullOrEmpty(setting))
                 {
                     retValue = DotNetNuke.Entities.Host.Host.EnableBrowserLanguage;
@@ -559,7 +559,7 @@ namespace Satrabel.HttpModules
                         {
                             action.CultureCode = tab.CultureCode;
 #if DNN71
-                            var primaryAliases = DotNetNuke.Entities.Portals.Internal.TestablePortalAliasController.Instance.GetPortalAliasesByPortalId(objPortalAlias.PortalID).ToList();
+                            var primaryAliases = PortalAliasController.Instance.GetPortalAliasesByPortalId(objPortalAlias.PortalID).ToList();
                             var alias = primaryAliases.FirstOrDefault(a => a.CultureCode == action.CultureCode);
                             if (alias != null)
                             {
@@ -611,7 +611,7 @@ namespace Satrabel.HttpModules
                             action.CultureCode = tab.CultureCode;
 
 #if DNN71
-                            var primaryAliases = DotNetNuke.Entities.Portals.Internal.TestablePortalAliasController.Instance.GetPortalAliasesByPortalId(objPortalAlias.PortalID).ToList();
+                            var primaryAliases = PortalAliasController.Instance.GetPortalAliasesByPortalId(objPortalAlias.PortalID).ToList();
                             var alias = primaryAliases.FirstOrDefault(a => a.CultureCode == action.CultureCode);
                             if (alias != null)
                             {
@@ -1356,7 +1356,9 @@ namespace Satrabel.HttpModules
             portalAlias = "";
             do
             {
-                objPortalAlias = PortalAliasController.GetPortalAliasInfo(myAlias);
+                //objPortalAlias = PortalAliasController.GetPortalAliasInfo(myAlias);
+                objPortalAlias = PortalAliasController.Instance.GetPortalAlias(myAlias);
+
 
                 if (objPortalAlias != null)
                 {

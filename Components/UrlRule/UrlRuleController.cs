@@ -28,10 +28,9 @@ namespace Satrabel.Services.Log.UrlRule
 
         public static int AddUrlRule(UrlRuleInfo objUrlRule)
         {
-            return Convert.ToInt32(DotNetNuke.Data.DataProvider.Instance().ExecuteScalar(ModuleQualifier+"AddUrlRule",
+            object result = DotNetNuke.Data.DataProvider.Instance().ExecuteScalar(ModuleQualifier + "AddUrlRule",
                                           objUrlRule.DateTime,
                                           objUrlRule.UserId,
-                                          
                                           objUrlRule.RuleType,
                                           GetNull(objUrlRule.CultureCode),
                                           objUrlRule.PortalId,
@@ -42,9 +41,18 @@ namespace Satrabel.Services.Log.UrlRule
                                           GetNull(objUrlRule.Url),
                                           GetNull(objUrlRule.RedirectDestination),
                                           GetNull(objUrlRule.RedirectStatus)
-                                        ));
-
+                                        );
+            if (result == DBNull.Value)
+            {
+                return 0;
+            }
+            else
+            {
+                return Convert.ToInt32(result);
+            }
             
+
+
         }
 
 
