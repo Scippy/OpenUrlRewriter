@@ -50,7 +50,10 @@
       <HintPath>..\..\bin\DotNetNuke.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="DotNetNuke.Abstractions, Version=9.5.1.0, Culture=neutral, PublicKeyToken=null" />
+    <Reference Include="DotNetNuke.Abstractions, Version=9.5.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="DotNetNuke.HttpModules, Version=8.0.4.226, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\bin\DotNetNuke.HttpModules.dll</HintPath>
@@ -271,6 +274,9 @@
   <ItemGroup>
     <Content Include="App_LocalResources\UrlLog_Settings.ascx.resx" />
     <Content Include="js\jquery.uitablefilter.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Bin\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v15.0\WebApplications\Microsoft.WebApplication.targets" />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

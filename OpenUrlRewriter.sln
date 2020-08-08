@@ -26,6 +26,32 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "http://www.dnn951.it", "htt
 		SlnRelativePath = "..\..\..\DNN951\"
 	EndProjectSection
 EndProject
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "http://gruppo24.codepoint.it", "http://gruppo24.codepoint.it", "{B421CDB9-7A61-478C-98E9-3B4BDD6C8D71}"
+	ProjectSection(WebsiteProperties) = preProject
+		UseIISExpress = "false"
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.7.2"
+		Debug.AspNetCompiler.VirtualPath = "/gruppo24.codepoint.it"
+		Debug.AspNetCompiler.PhysicalPath = "..\..\..\Gruppo24\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\gruppo24.codepoint.it\"
+		Debug.AspNetCompiler.Updateable = "true"
+		Debug.AspNetCompiler.ForceOverwrite = "true"
+		Debug.AspNetCompiler.FixedNames = "false"
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.VirtualPath = "/gruppo24.codepoint.it"
+		Release.AspNetCompiler.PhysicalPath = "..\..\..\Gruppo24\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\gruppo24.codepoint.it\"
+		Release.AspNetCompiler.Updateable = "true"
+		Release.AspNetCompiler.ForceOverwrite = "true"
+		Release.AspNetCompiler.FixedNames = "false"
+		Release.AspNetCompiler.Debug = "False"
+		SlnRelativePath = "..\..\..\Gruppo24\"
+	EndProjectSection
+	ProjectSection(ProjectDependencies) = postProject
+		{863ECE01-EC68-4FB7-8CC4-787BDDF60100} = {863ECE01-EC68-4FB7-8CC4-787BDDF60100}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XBlog_OpenUrlRewriter", "..\XBlog_OpenUrlProvider\XBlog_OpenUrlRewriter.csproj", "{2739ACAD-9864-4DEE-BEB8-093E6D653547}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +65,13 @@ Global
 		{FCADFD4F-BD00-471B-A682-2C941D003DEF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{FCADFD4F-BD00-471B-A682-2C941D003DEF}.Release|Any CPU.ActiveCfg = Debug|Any CPU
 		{FCADFD4F-BD00-471B-A682-2C941D003DEF}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{B421CDB9-7A61-478C-98E9-3B4BDD6C8D71}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B421CDB9-7A61-478C-98E9-3B4BDD6C8D71}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{B421CDB9-7A61-478C-98E9-3B4BDD6C8D71}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{2739ACAD-9864-4DEE-BEB8-093E6D653547}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2739ACAD-9864-4DEE-BEB8-093E6D653547}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2739ACAD-9864-4DEE-BEB8-093E6D653547}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2739ACAD-9864-4DEE-BEB8-093E6D653547}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

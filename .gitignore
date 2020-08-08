@@ -112,3 +112,4 @@ web.config
 OpenUrlRewriter.xml
 Package/
 /.vs
+/OpenUrlRewriter.zip

@@ -143,14 +143,14 @@ namespace Satrabel.Services.Url.FriendlyUrl
             return FriendlyUrl(tab, path, pageName, _portalSettings);
         }
 
-        public override string FriendlyUrl(TabInfo tab, string path, string pageName, PortalSettings settings)
-        {
-            if (settings == null)
-            {
-                return FriendlyUrl(tab, path, pageName);
-            }
-            return FriendlyUrl(tab, path, pageName, settings.PortalAlias.HTTPAlias);
-        }
+        //public override string FriendlyUrl(TabInfo tab, string path, string pageName, PortalSettings settings)
+        //{
+        //    if (settings == null)
+        //    {
+        //        return FriendlyUrl(tab, path, pageName);
+        //    }
+        //    return FriendlyUrl(tab, path, pageName, settings.PortalAlias.HTTPAlias);
+        //}
 
         public override string FriendlyUrl(TabInfo tab, string path, string pageName, string portalAlias)
         {

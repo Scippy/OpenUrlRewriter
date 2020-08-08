@@ -212,6 +212,7 @@ namespace Satrabel.HttpModules
                 || request.Url.LocalPath.ToLower().Contains("dmxdav.axd")
                 || request.Url.LocalPath.ToLower().Contains("dependencyhandler.axd")
                 || request.Url.LocalPath.ToLower().Contains("/api/personabar/")
+                || request.Url.LocalPath.ToLower().Contains("/api/2sxc/")
                 )
             {
                 return;
@@ -266,7 +267,8 @@ namespace Satrabel.HttpModules
             //if the portal/url was succesfully identified
 
             var tabId = Null.NullInteger;
-            var portalId = Null.NullInteger;
+            var alias = PortalAliasController.GetPortalAliasInfo(domainName);
+            var portalId = alias.PortalID;
             string portalAlias = null;
             PortalAliasInfo portalAliasInfo = null;
             var parsingError = false;
@@ -284,10 +286,14 @@ namespace Satrabel.HttpModules
             // get PortalId from querystring ( this is used for host menu options as well as child portal navigation )
             if (!string.IsNullOrEmpty(request.QueryString["portalid"]))
             {
-                if (!Int32.TryParse(request.QueryString["portalid"], out portalId))
+                if (portalId == -1)
                 {
-                    portalId = Null.NullInteger;
-                    parsingError = true;
+                    if ((portalId == -1) && (!Int32.TryParse(request.QueryString["portalid"], out portalId)))
+                    {
+                        portalId = Null.NullInteger;
+                        parsingError = true;
+                    }
+
                 }
             }
 
